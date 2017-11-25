@@ -10,7 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171125053351) do
+ActiveRecord::Schema.define(version: 20171125053654) do
+
+  create_table "opro_auth_grants", force: :cascade do |t|
+    t.string "code"
+    t.string "access_token"
+    t.string "refresh_token"
+    t.text "permissions"
+    t.datetime "access_token_expires_at"
+    t.integer "user_id"
+    t.integer "application_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["access_token"], name: "index_opro_auth_grants_on_access_token", unique: true
+    t.index ["code"], name: "index_opro_auth_grants_on_code", unique: true
+    t.index ["refresh_token"], name: "index_opro_auth_grants_on_refresh_token", unique: true
+  end
+
+  create_table "opro_client_apps", force: :cascade do |t|
+    t.string "name"
+    t.string "app_id"
+    t.string "app_secret"
+    t.text "permissions"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_id", "app_secret"], name: "index_opro_client_apps_on_app_id_and_app_secret", unique: true
+    t.index ["app_id"], name: "index_opro_client_apps_on_app_id", unique: true
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
